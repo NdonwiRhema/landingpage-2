@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, CheckCircle, Sparkles, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import {saveToFirestore} from './../../saveUSerToFirestore'
+import {saveToFirestore} from './../../saveUserToFirestore'
 
 const sections = [
   {
