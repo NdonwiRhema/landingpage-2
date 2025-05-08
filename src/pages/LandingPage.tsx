@@ -29,6 +29,8 @@ const sections = [
 function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [email, setEmail] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
+  const [isloading, setisloading] = useState(false);
+  const [isError, setisError] = useState(false);
   const [whatsappError, setWhatsappError] = useState('');
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -67,12 +69,19 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setisloading(true);
     if (validateWhatsapp(whatsapp)) {
       // // Send the whatsapp message.
     
-      saveToFirestore(email,whatsapp)
+      saveToFirestore(email,whatsapp).then(()=>{
+        setisloading(false);
+        navigate('/confirmation',{state:{email:email,number:whatsapp}});
+      }).catch((e)=>{
+        setisloading(false);
+        setisError(e)
+      })
       // then navigate to the new page witht the details
-      navigate('/confirmation',{state:{email:email,number:whatsapp}});
+      
     }
   };
 
@@ -95,6 +104,7 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
+            <p>{isError?isError:''}</p>
             <label htmlFor="email" className="block text-base font-medium text-gray-300 mb-2">
               Email address
             </label>
@@ -136,7 +146,7 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             type="submit"
             className="w-full flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg text-white bg-accent hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent focus:ring-offset-midnight transition-colors"
           >
-            Get Early Access <ArrowRight className="ml-2 h-5 w-5" />
+            Get Early Access {isloading?(<span className='animate-spin'>..</span>):(<ArrowRight className="ml-2 h-5 w-5" />)} 
           </button>
         </form>
       </div>
