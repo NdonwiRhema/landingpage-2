@@ -74,7 +74,6 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
     if (validateWhatsapp(whatsapp)) {
      
       saveToFirestore(email,whatsapp).then(()=>{
-        setisloading(false);
             // // Send an Email message.
           fetch('https://sendmail-a6qxiq7b4a-uc.a.run.app',{
             method:"POST",
@@ -88,6 +87,7 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
            
           })
           .catch((e)=>console.log(e))
+          setisloading(false);
            navigate('/confirmation',{state:{email:email,number:whatsapp}});
       }).catch((e)=>{
         setisloading(false);
