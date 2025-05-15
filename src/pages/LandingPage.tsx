@@ -62,8 +62,9 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
       setWhatsappError('Please enter a valid WhatsApp number (10-15 digits)');
       return false;
     }
-    
+    setWhatsapp(cleanNumber)
     setWhatsappError('');
+   
     return true;
   };
 
@@ -71,11 +72,23 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
     e.preventDefault();
     setisloading(true);
     if (validateWhatsapp(whatsapp)) {
-      // // Send the whatsapp message.
-    
+     
       saveToFirestore(email,whatsapp).then(()=>{
         setisloading(false);
-        navigate('/confirmation',{state:{email:email,number:whatsapp}});
+            // // Send an Email message.
+          fetch('https://sendmail-a6qxiq7b4a-uc.a.run.app',{
+            method:"POST",
+            body:JSON.stringify({
+              email:email,
+              whatsappNumber: '00'+whatsapp
+            })
+          })
+          .then((response)=>{
+            console.log(response)
+           
+          })
+          .catch((e)=>console.log(e))
+           navigate('/confirmation',{state:{email:email,number:whatsapp}});
       }).catch((e)=>{
         setisloading(false);
         setisError(e)

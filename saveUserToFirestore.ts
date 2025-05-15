@@ -1,4 +1,4 @@
-import { collection, doc,  getCountFromServer, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc,  getCountFromServer, setDoc } from "firebase/firestore";
 import db from "./firebase";
 
 export const saveToFirestore = async (email:string,whatsappNumber:string)=>{
