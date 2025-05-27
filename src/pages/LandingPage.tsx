@@ -76,7 +76,7 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
     if (validateWhatsapp(whatsapp)) {  
       const referral = params.get('referral') || '';   
-      console.log(referral)
+      // console.log(referral)
       saveToFirestore(email,whatsapp,referral).then(()=>{
             // // Send an Email message.
           fetch('https://sendmail-a6qxiq7b4a-uc.a.run.app',{
