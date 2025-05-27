@@ -32,6 +32,8 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
   const [isloading, setisloading] = useState(false);
   const [isError, setisError] = useState(false);
   const [whatsappError, setWhatsappError] = useState('');
+  const params =  new URLSearchParams(window.location.search)
+
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -71,9 +73,11 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setisloading(true);
-    if (validateWhatsapp(whatsapp)) {
-     
-      saveToFirestore(email,whatsapp).then(()=>{
+
+    if (validateWhatsapp(whatsapp)) {  
+      const referral = params.get('referral') || '';   
+      console.log(referral)
+      saveToFirestore(email,whatsapp,referral).then(()=>{
             // // Send an Email message.
           fetch('https://sendmail-a6qxiq7b4a-uc.a.run.app',{
             method:"POST",
@@ -87,13 +91,13 @@ function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
            
           })
           .catch((e)=>console.log(e))
-          setisloading(false);
-           navigate('/confirmation',{state:{email:email,number:whatsapp}});
+            setisloading(false);
+            navigate('/confirmation',{state:{email:email,number:whatsapp}});
       }).catch((e)=>{
         setisloading(false);
         setisError(e)
       })
-      // then navigate to the new page witht the details
+      // then navigate to the new page with the details
       
     }
   };
