@@ -24,6 +24,16 @@ const sections = [
       "Seamless Transfer between OM and MOMO wallets"
     ]
   },
+  {
+    title: "Refer a Friend ",
+    description: "Send money to friends, split bills, or pay merchants with just a tap. Hi Pay makes financial transactions as easy as saying hello, with real-time processing and instant confirmations.",
+    image: "https://firebasestorage.googleapis.com/v0/b/billsplit-d206c.appspot.com/o/hipay-assets%2Fpayment-01.png?alt=media&token=8f467191-fcfd-442e-b1e2-72f040699b82",
+    features: [
+      "QR code payments",
+      "Group payment splitting",
+      "Seamless Transfer between OM and MOMO wallets"
+    ]
+  },
 ];
 
 function BetaSignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {

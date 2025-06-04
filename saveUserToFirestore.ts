@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import {  doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import db from "./firebase";
 
 export const saveToFirestore = async (email:string,whatsappNumber:string,referral?:string )=>{
@@ -15,4 +15,18 @@ export const saveToFirestore = async (email:string,whatsappNumber:string,referra
 
  await setDoc(doc(db,'HipayUsers',id),{...userData,id:id})
 
+}
+
+export const ReadFromFirestore = async (id:string)=>{
+  const data = await getDoc(doc(db,`HipayUsers/${id}`)) 
+  if( data.exists()){
+    return data.data()
+  }
+  else{
+    return null
+  }
+}
+
+export const UpdateFirestore = async(id:string, data:{sheetId:string})=>{
+  return await updateDoc(doc(db,`HipayUsers/${id}`),data)
 }
